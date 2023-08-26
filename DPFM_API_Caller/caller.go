@@ -139,7 +139,7 @@ func (c *DPFMAPICaller) itemCancel(
 		data := dpfm_api_output_formatter.Item{
 			ProductionOrder:			input.Header.ProductionOrder,
 			ProductionOrderItem:		v.ProductionOrderItem,
-			IsMarkedForDeletion:		v.IsMarkedForDeletion,
+			IsCancelled:		v.IsCancelled,
 		}
 		res, err := c.rmq.SessionKeepRequest(nil, c.conf.RMQ.QueueToSQL()[0], map[string]interface{}{
 			"message":            data,
@@ -159,9 +159,9 @@ func (c *DPFMAPICaller) itemCancel(
 		}
 	}
 	// itemがキャンセル取り消しされた場合、headerのキャンセルも取り消す
-	if !*input.Header.Item[0].IsMarkedForDeletion {
+	if !*input.Header.Item[0].IsCancelled {
 		header := c.HeaderRead(input, log)
-		header.IsMarkedForDeletion = input.Header.Item[0].IsMarkedForDeletion
+		header.IsCancelled = input.Header.Item[0].IsCancelled
 		res, err := c.rmq.SessionKeepRequest(nil, c.conf.RMQ.QueueToSQL()[0], map[string]interface{}{"message": header, "function": "ProductionOrderHeader", "runtime_session_id": sessionID})
 		if err != nil {
 			err = xerrors.Errorf("rmq error: %w", err)
