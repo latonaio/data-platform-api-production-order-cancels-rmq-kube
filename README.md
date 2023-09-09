@@ -24,8 +24,8 @@ data-platform-api-production-order-cancels-rmq-kube において、API への値
 
 ## データ連携基盤のAPIの選択的コール
 
-Latona および AION の データ連携基盤 関連リソースでは、Inputs フォルダ下の sample.json の accepter に取得したいデータの種別（＝APIの種別）を入力し、指定することができます。  
-なお、同 accepter にAll(もしくは空白)の値を入力することで、全データ（＝全APIの種別）をまとめて取得することができます。  
+Latona および AION の データ連携基盤 関連リソースでは、Inputs フォルダ下の sample.json の accepter にキャンセルしたいデータの種別（＝APIの種別）を入力し、指定することができます。  
+なお、同 accepter にAll(もしくは空白)の値を入力することで、全データ（＝全APIの種別）をまとめてキャンセルすることができます。  
 
 * sample.jsonの記載例(1)  
 
@@ -101,7 +101,7 @@ func (c *DPFMAPICaller) AsyncCancels(
 ## Output  
 本マイクロサービスでは、[golang-logging-library-for-data-platform](https://github.com/latonaio/golang-logging-library-for-data-platform) により、以下のようなデータがJSON形式で出力されます。  
 以下の sample.json の例は 製造指図 の ヘッダデータ がキャンセルされた結果の JSON の例です。  
-以下の項目のうち、"ProductionOrder" ～ "PlusMinusFlag" は、/DPFM_API_Output_Formatter/type.go 内 の Type Header {} による出力結果です。"cursor" ～ "time"は、golang-logging-library による 定型フォーマットの出力結果です。  
+以下の項目のうち、"ProductionOrder" ～ "IsCancelled" は、/DPFM_API_Output_Formatter/type.go 内 の Type Header {} による出力結果です。"cursor" ～ "time"は、golang-logging-library による 定型フォーマットの出力結果です。  
 
 ```
 XXXXXXXX

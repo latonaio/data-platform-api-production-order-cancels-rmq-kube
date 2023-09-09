@@ -89,7 +89,7 @@ func (c *DPFMAPICaller) headerCancel(
 	if header == nil {
 		return nil, nil, nil, nil
 	}
-	header.IsCancelled = input.ProductionOrder.IsCancelled
+	header.IsCancelled = input.Header.IsCancelled
 	res, err := c.rmq.SessionKeepRequest(nil, c.conf.RMQ.QueueToSQL()[0], map[string]interface{}{"message": header, "function": "ProductionOrderHeader", "runtime_session_id": sessionID})
 	if err != nil {
 		err = xerrors.Errorf("rmq error: %w", err)
@@ -109,7 +109,7 @@ func (c *DPFMAPICaller) headerCancel(
 
 	items := c.ItemsRead(input, log)
 	for i := range *items {
-		(*items)[i].IsCancelled = input.ProductionOrder.IsCancelled
+		(*items)[i].IsCancelled = input.Header.IsCancelled
 		res, err := c.rmq.SessionKeepRequest(nil, c.conf.RMQ.QueueToSQL()[0], map[string]interface{}{"message": (*items)[i], "function": "ProductionOrderItem", "runtime_session_id": sessionID})
 		if err != nil {
 			err = xerrors.Errorf("rmq error: %w", err)

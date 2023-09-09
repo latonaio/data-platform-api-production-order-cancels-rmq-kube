@@ -14,6 +14,7 @@ func ConvertToHeader(rows *sql.Rows) (*Header, error) {
 		i++
 		err := rows.Scan(
 			&header.ProductionOrder,
+			&header.IsCancelled,
 		)
 		if err != nil {
 			fmt.Printf("err = %+v \n", err)
@@ -40,6 +41,7 @@ func ConvertToItem(rows *sql.Rows) (*[]Item, error) {
 		err := rows.Scan(
 			&item.ProductionOrder,
 			&item.ProductionOrderItem,
+			&item.IsCancelled,
 		)
 		if err != nil {
 			fmt.Printf("err = %+v \n", err)
